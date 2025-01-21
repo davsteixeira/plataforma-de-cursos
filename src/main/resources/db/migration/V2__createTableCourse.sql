@@ -1,0 +1,11 @@
+CREATE TABLE Course (
+    code VARCHAR(10) NOT NULL,
+    createdAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    name VARCHAR(150) NOT NULL,
+    description VARCHAR(400),
+    instructorEmail VARCHAR(50) NOT NULL,
+    status ENUM('ACTIVE', 'INACTIVE') NOT NULL DEFAULT 'ACTIVE',
+    inactivationAt DATETIME,
+    PRIMARY KEY (code),
+    CONSTRAINT UC_Code UNIQUE (code)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
