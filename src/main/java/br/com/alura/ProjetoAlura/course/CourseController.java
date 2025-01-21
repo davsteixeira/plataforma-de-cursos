@@ -11,13 +11,19 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class CourseController {
 
-    @PostMapping("/course/new")
-    public ResponseEntity createCourse(@Valid @RequestBody NewCourseDTO newCourse) {
-        // TODO: Implementar a Questão 1 - Cadastro de Cursos aqui...
+    private final CourseService service;
 
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+    public CourseController(CourseService service) {
+        this.service = service;
     }
 
+    @PostMapping("/course/new")
+    public ResponseEntity<Course> createCourse(@Valid @RequestBody NewCourseDTO newCourse) {
+        Course course = service.createCourse(newCourse);
+        return ResponseEntity.status(HttpStatus.CREATED).body(course);
+    }
+
+    //Colocar um curso como inativo
     @PostMapping("/course/{code}/inactive")
     public ResponseEntity createCourse(@PathVariable("code") String courseCode) {
         // TODO: Implementar a Questão 2 - Inativação de Curso aqui...
