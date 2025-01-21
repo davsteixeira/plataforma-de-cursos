@@ -25,10 +25,9 @@ public class CourseController {
 
     //Colocar um curso como inativo
     @PostMapping("/course/{code}/inactive")
-    public ResponseEntity createCourse(@PathVariable("code") String courseCode) {
-        // TODO: Implementar a Questão 2 - Inativação de Curso aqui...
-
-        return ResponseEntity.ok().build();
+    public ResponseEntity<Course> deactivateCourse(@PathVariable("code") String courseCode) {
+        Course course = service.deactivateCourse(courseCode);
+        return ResponseEntity.ok(course);
     }
 
 }

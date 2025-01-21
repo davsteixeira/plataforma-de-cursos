@@ -2,6 +2,8 @@ package br.com.alura.ProjetoAlura.course;
 
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 @Service
 public class CourseService {
 
@@ -19,6 +21,13 @@ public class CourseService {
                 dto.getInstructorEmail()
         );
 
+        return repository.save(course);
+    }
+
+    public Course deactivateCourse(String courseCode) {
+        Course course = repository.findById(courseCode).orElseThrow(() -> new IllegalArgumentException("Curso não encontrado"));
+        course.setStatus(Status.INACTIVE);
+        course.setInactivationAt(LocalDateTime.now());
         return repository.save(course);
     }
 }
