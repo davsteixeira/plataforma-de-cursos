@@ -18,11 +18,11 @@ public interface RegistrationRepository extends JpaRepository<Registration, Long
     FROM Registration r
     JOIN Course c ON r.courseCode = c.code
     JOIN User u ON c.instructorEmail = u.email
+    WHERE c.status = 'ACTIVE'
     GROUP BY c.name, c.code, u.name, u.email
     ORDER BY COUNT(r.studentEmail) DESC
-""", nativeQuery = true)
-    List<Object[]> getCourseRegistrationReportRaw();
-
-
+    LIMIT 5
+    """, nativeQuery = true)
+    List<Object[]> getCourseRegistrationReportRaw(); // Eu optei por retornar apenas os 5 primeiros cursos e que estejam ativos no relatório
 
 }

@@ -45,8 +45,12 @@ public class RegistrationController {
     }
 
     @GetMapping("/registration/report")
-    public ResponseEntity<ArrayList<RegistrationReportItem>> report() {
+    public ResponseEntity<Object> report() {
         ArrayList<RegistrationReportItem> report = registrationService.generateReport();
+        if (report.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT)
+                    .body(new ErrorItemDTO("report", "No registration data available"));
+        }
         return ResponseEntity.ok(report);
     }
 }
