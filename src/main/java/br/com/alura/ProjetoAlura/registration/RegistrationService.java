@@ -5,6 +5,9 @@ import br.com.alura.ProjetoAlura.course.CourseRepository;
 import br.com.alura.ProjetoAlura.course.Status;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class RegistrationService {
 
@@ -17,7 +20,7 @@ public class RegistrationService {
     }
 
     public void createRegistration(NewRegistrationDTO dto) {
-        // Verifica se o curso existe e está ativo
+
         Course course = courseRepository.findById(dto.getCourseCode())
                 .orElseThrow(() -> new IllegalArgumentException("Course not found"));
 
@@ -25,14 +28,28 @@ public class RegistrationService {
             throw new IllegalArgumentException("Cannot register in an inactive course");
         }
 
-        // Verifica se já existe uma matrícula para o estudante no curso
         if (registrationRepository.existsByCourseCodeAndStudentEmail(dto.getCourseCode(), dto.getStudentEmail())) {
             throw new IllegalArgumentException("Student is already registered in this course");
         }
 
-        // Cria a nova matrícula
         Registration registration = new Registration(dto.getCourseCode(), dto.getStudentEmail());
         registrationRepository.save(registration);
+    }
+
+    public ArrayList<RegistrationReportItem> generateReport() {
+        List<Object[]> rawResults = registrationRepository.getCourseRegistrationReportRaw();
+
+        ArrayList<RegistrationReportItem> report = new ArrayList<>();
+        for (Object[] result : rawResults) {
+            report.add(new RegistrationReportItem(
+                    (String) result[0], // courseName
+                    (String) result[1], // courseCode
+                    (String) result[2], // instructorName
+                    (String) result[3], // instructorEmail
+                    ((Number) result[4]).longValue() // totalRegistrations
+            ));
+        }
+        return report;
     }
 
 }

@@ -36,3 +36,4 @@ public class RegistrationReportItem {
         return totalRegistrations;
     }
 }
+
