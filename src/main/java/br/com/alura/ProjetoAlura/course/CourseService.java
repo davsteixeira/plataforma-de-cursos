@@ -20,12 +20,10 @@ public class CourseService {
                 dto.getDescription(),
                 dto.getInstructorEmail()
         );
-
         return repository.save(course);
     }
 
-    public Course deactivateCourse(String courseCode) {
-        Course course = repository.findById(courseCode).orElseThrow(() -> new IllegalArgumentException("Curso não encontrado"));
+    public Course deactivateCourse(Course course) {
         course.setStatus(Status.INACTIVE);
         course.setInactivationAt(LocalDateTime.now());
         return repository.save(course);
