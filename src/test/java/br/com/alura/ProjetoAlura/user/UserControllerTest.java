@@ -106,6 +106,83 @@ class UserControllerTest {
     }
 
     @Test
+    void newInstructor__should_return_bad_request_when_password_is_blank() throws Exception {
+        NewInstructorUserDTO newInstructorUserDTO = new NewInstructorUserDTO();
+        newInstructorUserDTO.setEmail("test@test.com");
+        newInstructorUserDTO.setName("Charles");
+        newInstructorUserDTO.setPassword("");
+
+        mockMvc.perform(post("/user/newInstructor")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(newInstructorUserDTO)))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$[0].field").value("password"))
+                .andExpect(jsonPath("$[0].message").isNotEmpty());
+    }
+
+    @Test
+    void newInstructor__should_return_bad_request_when_email_is_blank() throws Exception {
+        NewInstructorUserDTO newInstructorUserDTO = new NewInstructorUserDTO();
+        newInstructorUserDTO.setEmail("");
+        newInstructorUserDTO.setName("Charles");
+        newInstructorUserDTO.setPassword("mudar123");
+
+        mockMvc.perform(post("/user/newInstructor")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(newInstructorUserDTO)))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$[0].field").value("email"))
+                .andExpect(jsonPath("$[0].message").isNotEmpty());
+    }
+
+    @Test
+    void newInstructor__should_return_bad_request_when_email_is_invalid() throws Exception {
+        NewInstructorUserDTO newInstructorUserDTO = new NewInstructorUserDTO();
+        newInstructorUserDTO.setEmail("Charles");
+        newInstructorUserDTO.setName("Charles");
+        newInstructorUserDTO.setPassword("mudar123");
+
+        mockMvc.perform(post("/user/newInstructor")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(newInstructorUserDTO)))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$[0].field").value("email"))
+                .andExpect(jsonPath("$[0].message").isNotEmpty());
+    }
+
+    @Test
+    void newInstructor__should_return_bad_request_when_email_already_exists() throws Exception {
+        NewInstructorUserDTO newInstructorUserDTO = new NewInstructorUserDTO();
+        newInstructorUserDTO.setEmail("charles@alura.com.br");
+        newInstructorUserDTO.setName("Charles");
+        newInstructorUserDTO.setPassword("mudar123");
+
+        when(userRepository.existsByEmail(newInstructorUserDTO.getEmail())).thenReturn(true);
+
+        mockMvc.perform(post("/user/newInstructor")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(newInstructorUserDTO)))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.field").value("email"))
+                .andExpect(jsonPath("$.message").value("Email já cadastrado no sistema"));
+    }
+
+    @Test
+    void newInstructor__should_return_created_when_user_request_is_valid() throws Exception {
+        NewInstructorUserDTO newInstructorUserDTO = new NewInstructorUserDTO();
+        newInstructorUserDTO.setEmail("charles@alura.com.br");
+        newInstructorUserDTO.setName("Charles");
+        newInstructorUserDTO.setPassword("mudar123");
+
+        when(userRepository.existsByEmail(newInstructorUserDTO.getEmail())).thenReturn(false);
+
+        mockMvc.perform(post("/user/newInstructor")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(newInstructorUserDTO)))
+                .andExpect(status().isCreated());
+    }
+
+    @Test
     void listAllUsers__should_list_all_users() throws Exception {
         User user1 = new User("User 1", "user1@test.com", Role.STUDENT,"mudar123");
         User user2 = new User("User 2", "user2@test.com",Role.STUDENT,"mudar123");
