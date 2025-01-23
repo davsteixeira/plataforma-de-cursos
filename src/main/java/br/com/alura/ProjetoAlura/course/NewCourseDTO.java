@@ -17,7 +17,7 @@ public class NewCourseDTO {
     @NotBlank
     @Length(min = 4, max = 10)
     @Pattern(regexp = "^[a-zA-Z-]+$", message = "O código do curso deve conter apenas letras e hífens.")
-    private String code;
+    private String code; //Optei por deixar o usuário definir o código, devido ao padrão textual
 
     private String description;
 

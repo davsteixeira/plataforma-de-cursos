@@ -36,6 +36,7 @@ public class RegistrationService {
         registrationRepository.save(registration);
     }
 
+    //Como a query está em sql nativo eu cheguei na lógica de trazer cada curso como Object e transformar em um RegistrationReportItem, pois não estava conseguindo fazer a conversão direta
     public ArrayList<RegistrationReportItem> generateReport() {
         List<Object[]> rawResults = registrationRepository.getCourseRegistrationReportRaw();
 

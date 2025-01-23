@@ -9,7 +9,7 @@ public class Registration {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)  // Auto-incrementa
-    private Long id;  // ID único da matrícula
+    private Long id;  // Criei um ID único da matrícula para facilitar buscas no banco de dados, pensando a longo prazo
 
     @Column(nullable = false, length = 10)
     private String courseCode;

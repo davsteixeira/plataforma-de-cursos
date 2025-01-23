@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 
+//Embora o template inicial que há em User não tenha serviços eu optei por separar as responsabilidades de lógica da controller em uma service, por ser um padrão que estou habituado e acredito ser uma boa prática, deixando para a controller apenas a lógica de validação dos métodos.
 @Service
 public class CourseService {
 

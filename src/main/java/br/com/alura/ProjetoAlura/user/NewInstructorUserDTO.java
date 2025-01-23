@@ -7,6 +7,7 @@ import org.hibernate.validator.constraints.Length;
 
 import static br.com.alura.ProjetoAlura.user.Role.INSTRUCTOR;
 
+//Fiquei em dúvida sobre criar uma DTO só para instrutor, mas acho que fiz certo assim ao invés de vir direto da user, já que torna o dto de estudante um padrão e não exceção.
 public class NewInstructorUserDTO {
 
     @NotNull
