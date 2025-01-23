@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class CourseController {
 
+
     private final CourseService service;
     private final UserRepository userRepository;
     private final CourseRepository courseRepository;
@@ -32,15 +33,15 @@ public class CourseController {
         User user = userRepository.findByEmail(newCourse.getInstructorEmail()).orElse(null);
         if (user == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(new ErrorItemDTO("email", "Usuário não encontrado com este email"));
+                    .body(new ErrorItemDTO("email", "User not found with this email"));
         }
         if (user.getRole() != Role.INSTRUCTOR) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(new ErrorItemDTO("role", "O usuário precisa ser um INSTRUCTOR para criar um curso"));
+                    .body(new ErrorItemDTO("role", "The user must be an INSTRUCTOR to create a course"));
         }
         if (courseRepository.existsByCode(newCourse.getCode())) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(new ErrorItemDTO("code", "Já existe um curso com este código"));
+                    .body(new ErrorItemDTO("code", "There is already a course with this code"));
         }
 
         Course course = service.createCourse(newCourse);
@@ -53,7 +54,7 @@ public class CourseController {
         Course course = courseRepository.findById(courseCode).orElse(null);
         if (course == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(new ErrorItemDTO("code", "Curso não encontrado com este código"));
+                    .body(new ErrorItemDTO("code", "Course not found with this code"));
         }
 
         course = service.deactivateCourse(course);

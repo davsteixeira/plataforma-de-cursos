@@ -18,7 +18,8 @@ public class CourseService {
                 dto.getCode(),
                 dto.getName(),
                 dto.getDescription(),
-                dto.getInstructorEmail()
+                dto.getInstructorEmail(),
+                dto.toModel().getStatus()
         );
         return repository.save(course);
     }

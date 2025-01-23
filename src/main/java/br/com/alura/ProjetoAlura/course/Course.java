@@ -28,11 +28,12 @@ public class Course {
 
     public Course() {}
 
-    public Course(String code, String name, String description, String instructorEmail) {
+    public Course(String code, String name, String description, String instructorEmail, Status status) {
         this.code = code;
         this.name = name;
         this.description = description;
         this.instructorEmail = instructorEmail;
+        this.status = status;
     }
 
     public String getCode() {
