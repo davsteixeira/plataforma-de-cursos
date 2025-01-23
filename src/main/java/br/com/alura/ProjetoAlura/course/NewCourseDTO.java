@@ -1,14 +1,11 @@
 package br.com.alura.ProjetoAlura.course;
 
-import br.com.alura.ProjetoAlura.user.User;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import org.hibernate.validator.constraints.Length;
 import static br.com.alura.ProjetoAlura.course.Status.ACTIVE;
-
-import static br.com.alura.ProjetoAlura.user.Role.STUDENT;
 
 public class NewCourseDTO {
 
