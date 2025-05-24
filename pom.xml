@@ -8,11 +8,11 @@
 		<version>3.3.3</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>br.com.alura</groupId>
-	<artifactId>ProjetoAlura</artifactId>
+	<groupId>br.com.plataformaDeCursos</groupId>
+	<artifactId>plataforma-de-cursos</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>ProjetoAlura</name>
-	<description>Projeto que simula funcionalidades de uma plataforma educacional, inspirado na Alura, para o processo seletivo.</description>
+	<name>PlataformaDeCursos</name>
+	<description>Projeto que simula funcionalidades de uma plataforma educacional.</description>
 	<url/>
 	<licenses>
 		<license/>
