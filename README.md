@@ -1,97 +1,68 @@
-# Projeto Alura
+# API da Plataforma de Cursos
 
-Bem-vinda ao teste para **Pessoa Desenvolvedora Java** da Alura!
+Esta é uma API backend para uma plataforma educacional. Com ela, é possível cadastrar e inativar cursos, realizar matrículas de alunos e gerar relatórios dos cursos mais acessados. O sistema foi desenvolvido com Java e Spring Boot, seguindo os princípios de arquitetura RESTful.
 
-Neste desafio, será simulado uma parte do domínio de uma plataforma educacional para que você possa demonstrar seus conhecimentos técnicos.
+---
 
-Não há respostas certas ou erradas, queremos avaliar como você aplica conceitos de lógica e orientação a objetos para resolver problemas.
+## 🧰 Tecnologias Utilizadas
 
-## Requisitos
-
-- Java 18 ou superior
+- Java 18+
 - Spring Boot
 - Spring Data JPA
 - MySQL
-- Migrações de banco de dados manuais com [Flyway](https://www.baeldung.com/database-migrations-with-flyway)
+- Flyway (migrações manuais de banco de dados)
 
-## Instruções
+---
 
-1. Faça o upload do template inicial do projeto no seu repositório GitHub e mantenha-o público (seus commits serão avaliados).
-2. Importe o projeto na IDE de sua escolha.
-3. O código deve ser todo escrito em inglês, mesmo que os requisitos estejam em português.
+## 🚀 Como Executar
 
-## Desafio
+### 1. Clone o repositório
+```bash
+git clone https://github.com/seu-usuario/plataforma-cursos-api.git
+```
+### 2. Configure o banco de dados
+Crie um banco de dados MySQL e atualize as configurações no arquivo application.properties ou application.yml.
 
-O projeto base já contém a configuração das tecnologias requeridas. Algumas funcionalidades relacionadas à entidade `User` estão implementadas e podem servir como guia para a resolução das questões.
+3. Execute o projeto
+```bash
+./mvnw spring-boot:run
+```
 
-> [!WARNING]
-> Não se preocupe com a interface visual, a interação será feita por meio de API.
+---
 
-### Questão 1 - Cadastro de Cursos
+## 📚 Funcionalidades
+### 📌 Cadastro de Cursos
+Atributos do curso:
+ - Nome
+ - Código (único, de 4 a 10 caracteres, letras minúsculas e hífen)
+ - Instrutor
+ - Descrição
+ - Status (ACTIVE, INACTIVE)
+ - Data de inativação (preenchida apenas se o curso for inativado)
 
-Na Alura, grande parte das funcionalidades gira em torno dos cursos. Sua primeira tarefa é implementar o cadastro de cursos, obedecendo às regras definidas abaixo.
+Regras:
+- Apenas usuários do tipo instrutor podem criar cursos.
+- Todo curso novo é criado com status ACTIVE.
+- A data de inativação é registrada apenas ao inativar o curso.
 
-#### Atributos
+📍 Endpoint: POST /course/new
 
-- Nome
-- Código (entre 4 e 10 caracteres)
-- Instrutor
-- Descrição
-- Status (`ACTIVE`, `INACTIVE`)
-- Data de inativação
+### 🛑 Inativação de Cursos
+- Permite inativar cursos existentes pelo código.
+- O status do curso é alterado para INACTIVE e a data de inativação é registrada com o horário atual.
 
-#### Regras
+📍 Endpoint: PATCH /course/{code}/inactive
 
-- O código do curso deve ser único, textual, sem espaços, números ou caracteres especiais, podendo ser separado por hífen (ex.: `spring-boot-avancado`).
-- Apenas usuários instrutores podem ser autores de cursos.
-- Os novos cursos devem ser automaticamente definidos como `ACTIVE`.
-- O campo "data de inativação" só deve ser preenchido quando o curso for inativado.
+### 🎓 Matrícula de Alunos
+- Permite que alunos se matriculem em cursos ativos.
+- Garante que um aluno não se matricule mais de uma vez no mesmo curso.
+- Impede matrícula em cursos inativos.
 
-> [!TIP]
-> Há um ponto de partida no `CourseController` com a rota `/course/new`.
+📍 Endpoint: POST /registration
 
-### Questão 2 - Inativação de Cursos
+### 📊 Relatório de Cursos Mais Acessados
+- Gera um relatório dos cursos com mais matrículas.
+- Os dados são ordenados pela quantidade de inscrições.
+- Implementado com SQL nativo para melhor desempenho em grandes volumes de dados.
 
-Cursos podem ser inativados por diversos motivos, como atualizações ou descontinuação. Você será responsável por implementar essa funcionalidade, seguindo as regras a seguir.
-
-#### Regras
-
-- Acesse a rota `/course/{code}/inactive` para inativar o curso com o código fornecido.
-- Ao inativar, o campo "status" deve ser alterado para `INACTIVE` e o campo "data de inativação" deve ser registrado com a data e hora atuais.
-
-### Questão 3 - Matrícula de Alunos
-
-Com os cursos criados, o próximo passo é permitir que os alunos se matriculem nos cursos disponíveis.
-
-#### Atributos
-
-- Usuário
-- Curso
-- Data de matrícula
-
-#### Regras
-
-- Um usuário não pode se matricular mais de uma vez no mesmo curso.
-- Só é permitido matrícula em cursos ativos.
-
-> [!TIP]
-> Já existe um ponto de partida no `RegistrationController`.
-
-### Questão 4 - Relatório de Cursos Mais Acessados
-
-Agora que temos usuários e matrículas, queremos gerar um relatório para identificar os cursos mais acessados. Implemente a lógica na rota `/registration/report` para listar os cursos com mais matrículas, ordenados pelo número de inscrições.
-
-> [!IMPORTANT]
-> A Alura possui um grande volume de dados. Portanto, priorize o uso de SQL nativo na construção do relatório e evite o [anti-pattern N+1](https://semantix.ai/o-que-e-o-problema-n1/).
-
-## Considerações Finais
-
-- A avaliação será baseada na implementação dos requisitos e na forma como você aplica conceitos de lógica e orientação a objetos.
-- Qualquer tecnologia fora do escopo mencionado (como Swagger, Docker ou front-end) não será considerada.
-- Caso tenha dúvidas durante o desenvolvimento, faça anotações no código e implemente o que considerar mais adequado.
-- Testes são altamente valorizados, e candidatos que implementarem testes automatizados ganharão pontos extras.
-- Códigos muito semelhantes aos de outros candidatos podem resultar na anulação do teste.
-- O uso de ferramentas de IA é permitido, mas o código gerado deve ser revisado. Caso avance para a próxima etapa, a entrevista técnica será baseada no código que você produziu.
-
-> [!TIP]
-> Para uma melhor organização dos commits, considere seguir as [convenções de commits](https://www.conventionalcommits.org/pt-br/v1.0.0/). Isso ajuda a manter um histórico claro e compreensível do projeto.
+📍 Endpoint: GET /registration/report
